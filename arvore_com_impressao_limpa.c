@@ -3,124 +3,122 @@
 #include <time.h>
 #define COUNT 5
 
-// self-referential structure
+// estrutura autoreferenciada
 struct nodo_arvore {
-    struct nodo_arvore *ponteiro_esquerda; // pointer to left subtree
-    int dado; // node valor
-    struct nodo_arvore *ponteiro_direita; // pointer to right subtree
-}; // end structure nodo_arvore789
+    struct nodo_arvore *ponteiro_esquerda; // ponteiro para  a subarvore a esquerda
+    int dado; // valor contido no nodo
+    struct nodo_arvore *ponteiro_direita; // ponteiro para a subarvore a direita
+}; // fim da estrutura nodo da arvore
 
-typedef struct nodo_arvore nodo_arvore; // synonym for struct nodo_arvore
-typedef nodo_arvore *nodo_arvore_ponteiro; // synonym for nodo_arvore*
+typedef struct nodo_arvore nodo_arvore; // sinonimo para a estrutura de nodo da arvore
+typedef nodo_arvore *nodo_arvore_ponteiro; // sinonimo para o ponteiro de estrutura de nodo da arvore
 
-// prototypes
-void insertNode( nodo_arvore_ponteiro *ponteiro_arvore, int valor );
-void inOrder( nodo_arvore_ponteiro ponteiro_arvore );
-void print2D(nodo_arvore_ponteiro ponteiro_raiz);
-void print2DUtil(nodo_arvore_ponteiro ponteiro_raiz, int espaco);
+// prototipos de função
+void inserir_na_arvore(nodo_arvore_ponteiro *ponteiro_arvore, int valor);
+void percurso_em_ordem(nodo_arvore_ponteiro ponteiro_arvore);
+void impressao_formato_arvore(nodo_arvore_ponteiro ponteiro_raiz, int espaco);
 
-// function main begins program execution
+// função main inicia execução do programa
 int main( int argc, char **argv )
 {
-    unsigned int i; // counter to loop from 1-10
-    int item; // variable to hold random valors
-    nodo_arvore_ponteiro ponteiro_raiz = NULL; // tree initially empty
+    unsigned int i; // contador de loop de 1-10
+    int item; // variável para armazenar os valores randômicos criados
+    nodo_arvore_ponteiro ponteiro_raiz = NULL; // inicializando a árvore como nula
 
     srand( time( NULL ) );
     puts( "Os numeros a serem inseridos na arvore sao:" );
 
-    // insert random valors between 0 and 14 in the tree
+    // inserindo valores randômicos entre 0 e 14 na árvore
     for ( i = 1; i <= 20; ++i )
     {
         item = rand() % 100;
         printf( "%3d", item );
-        insertNode( &ponteiro_raiz, item); //insere valores aleatorios no nodo
-    } // end for
+        inserir_na_arvore( &ponteiro_raiz, item); //insere valores aleatorios no nodo
+    } // fim do laço for
     
-    // traverse the tree inOrder
+    // percorrendo percurso em ordem
     puts( "\n\nO percuro em-ordem:" );
-    inOrder( ponteiro_raiz );
+    percurso_em_ordem( ponteiro_raiz );
 
     printf("\n");
 
     print2D(ponteiro_raiz);
 
     exit(0);
-} // end main
+} // fim da função principal
 
-// insert node into tree
-void insertNode( nodo_arvore_ponteiro *ponteiro_arvore, int valor )
+// inserindo nodo na árvore
+void inserir_na_arvore( nodo_arvore_ponteiro *ponteiro_arvore, int valor )
 {
-    // if tree is empty
+    // se a árvore estiver vazia
     if ( *ponteiro_arvore == NULL ) {
         *ponteiro_arvore = malloc( sizeof( nodo_arvore ) );
 
-        // if memory was allocated, then assign dado
+        // se um espaço de memória foi alocado, então o nodo recebe o dado
         if ( *ponteiro_arvore != NULL ) {
             ( *ponteiro_arvore )->dado = valor;
             ( *ponteiro_arvore )->ponteiro_esquerda = NULL;
             ( *ponteiro_arvore )->ponteiro_direita = NULL;
-        } // end if
+        } // fim do condicional if
         else {
-        printf( "%d nao inserido. Sem memoria disponivel.\n", valor );
-        } // end else
-    } // end if
-    else { // tree is not empty
-        // dado to insert is less than dado in current node
+            printf( "%d nao inserido. Sem memoria disponivel.\n", valor );
+        } // fim do condicional else
+    } // fim do condional if
+    else { // a árvore não está vazia
+        // valor a ser inserido na árvore é menor que o valor presente no nodo atual
         if ( valor < ( *ponteiro_arvore )->dado ) {
-            insertNode( &( ( *ponteiro_arvore )->ponteiro_esquerda ), valor );
-        } // end if
+            inserir_na_arvore( &( ( *ponteiro_arvore )->ponteiro_esquerda ), valor );
+        } // fim do condicional if
         
-        // dado to insert is greater than dado in current node
+        // valor a ser inserido na árvore é maior que o valor presente no nodo atual
         else if ( valor > ( *ponteiro_arvore )->dado ) {
-            insertNode( &( ( *ponteiro_arvore )->ponteiro_direita ), valor );
-        } // end else if
-        else { // duplicate dado valor ignored
+            inserir_na_arvore( &( ( *ponteiro_arvore )->ponteiro_direita ), valor );
+        } // fim do condicional else if
+        else { // ignorar valor dentro nó duplicado
             printf( "%s", " (valor duplicado)" );
-        } // end else
-    } // end else
-} // end function insertNode
+        } // fim do condicional else
+    } // fim do condicional else
+} // fim da função inserir_na_arvore
 
-// begin inorder traversal of tree
-void inOrder( nodo_arvore_ponteiro ponteiro_arvore )
+// inicia percurso em ordem da árvore
+void percurso_em_ordem( nodo_arvore_ponteiro ponteiro_arvore )
 {
-    // if tree is not empty, then traverse
+    // se a árvore não está vazia, então percorre a mesma
     if ( ponteiro_arvore != NULL ) {
-        inOrder( ponteiro_arvore->ponteiro_esquerda );
+        percurso_em_ordem( ponteiro_arvore->ponteiro_esquerda );
         printf( "%3d", ponteiro_arvore->dado );
-        inOrder( ponteiro_arvore->ponteiro_direita );
-    } // end if
-}// end function inOrder
+        percurso_em_ordem( ponteiro_arvore->ponteiro_direita );
+    } // fim do condicional if
+}// fim da função percurso_em_ordem
 
-// Function to print binary tree in 2D
-// It does reverse inorder traversal
-void print2DUtil(nodo_arvore_ponteiro ponteiro_raiz, int espaco)
+// Função para imprimir árvore binária de busca
+void impressao_formato_arvore(nodo_arvore_ponteiro ponteiro_raiz, int espaco)
 {
-    // Base case
+    // Caso base
     if (ponteiro_raiz == NULL)
         return;
  
-    // Increase distance between levels
+    // Incrementa a distância entre níveis
     espaco += COUNT;
  
-    // Process right child first
-    print2DUtil(ponteiro_raiz->ponteiro_direita, espaco);
+    // Processa nó a direita primeiro
+    impressao_formato_arvore(ponteiro_raiz->ponteiro_direita, espaco);
  
-    // Print current node after space
-    // count
+    // Imprime nó atual depois de dar o número de espaços
+    // contador
     printf("\n");
     int i;
     for (i = COUNT; i < espaco; i++)
         printf(" ");
     printf("%d\n", ponteiro_raiz->dado);
  
-    // Process left child
-    print2DUtil(ponteiro_raiz->ponteiro_esquerda, espaco);
+    // Processa nós a esquerda
+    impressao_formato_arvore(ponteiro_raiz->ponteiro_esquerda, espaco);
 }
  
-// Wrapper over print2DUtil()
+// Wrapper over impressao_formato_arvore()
 void print2D(nodo_arvore_ponteiro ponteiro_raiz)
 {
    // Pass initial space count as 0
-   print2DUtil(ponteiro_raiz, 0);
+   impressao_formato_arvore(ponteiro_raiz, 0);
 }
