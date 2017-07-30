@@ -42,7 +42,7 @@ int main( int argc, char **argv )
 
     printf("\n");
 
-    impressao_formato_arvore(ponteiro_raiz);
+    impressao_formato_arvore(ponteiro_raiz,0);
 
     exit(0);
 } // fim da função principal
