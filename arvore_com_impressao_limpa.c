@@ -115,10 +115,3 @@ void impressao_formato_arvore(nodo_arvore_ponteiro ponteiro_raiz, int espaco)
     // Processa nós a esquerda
     impressao_formato_arvore(ponteiro_raiz->ponteiro_esquerda, espaco);
 }
- 
-// Wrapper over impressao_formato_arvore()
-void print2D(nodo_arvore_ponteiro ponteiro_raiz)
-{
-   // Pass initial space count as 0
-   impressao_formato_arvore(ponteiro_raiz, 0);
-}
