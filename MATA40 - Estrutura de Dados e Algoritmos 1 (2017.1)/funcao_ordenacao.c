@@ -8,7 +8,7 @@ mostre os números ordenados com duas casas decimais apenas.*/
 #include <stdio.h>
 #include <stdlib.h>
 
-void ordena (float *num_1, float *num_2, float *num_3)
+void ordena (float *num_1, float *num_2, float *num_3) //função para ordenar os três valores inseridos (passagem por referência)
 {
 	float aux;
 	
