@@ -1,3 +1,15 @@
+/*O jogo terá um número secreto e o usuário tentará adivinhar esse número via linha de comando.
+
+Os requisitos:
+
+O número secreto será gerado aleatoriamente pelo computador de 0 a 99.
+O jogo dará uma saudação e perguntará ao usuário o chute dele.
+O usuário terá um limite de tentativas que o desenvolvedor deve escolher considerando maximizar o interesse dos jogadores.
+Se o usuário acertar o jogo parabenizará o usuário e informará seus pontos finais, se errar o jogo informará se o chute foi
+maior ou menor e pedirá uma nova tentativa.
+O usuário terá 1000 pontos inicialmente e esses pontos serão descontados a cada erro de tentativa do usuário. O desconto de
+pontos será a metade da diferença entre o chute do usuário e o número secreto.*/
+
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -8,7 +20,8 @@ int pontuacao_desconto(int numero_secreto, int numero_chutado)
 {
 	int desconto;
 	 
-	return desconto = (abs(numero_chutado - numero_secreto))/2; //O desconto de pontos será a metade da diferença entre o chute do usuário e o número secreto.
+	return desconto = (abs(numero_chutado - numero_secreto))/2; /*O desconto de pontos será a metade da diferença entre o chute
+	do usuário e o número secreto.*/
 }
  
 int main()
@@ -49,7 +62,8 @@ int main()
 					printf("\n\n(Spoiler alert: O numero que voce chutou foi menor que o numero secreto)");
 				}
 				 
-				pontuacao_atual = pontuacao_atual - pontuacao_desconto(numero_secreto, numero_chutado); //calcula o desconto e o retira da pontuação atual do usuário
+				pontuacao_atual = pontuacao_atual - pontuacao_desconto(numero_secreto, numero_chutado); /*calcula o desconto e o retira
+				da pontuação atual do usuário*/
 				 
 				printf("\nVoce possui apenas mais %d tentativa(s). Pense bem antes de dar o proximo chute!\n", qt_tentativas-1);
 				 
