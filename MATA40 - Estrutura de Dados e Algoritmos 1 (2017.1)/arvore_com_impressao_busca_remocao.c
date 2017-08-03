@@ -165,38 +165,53 @@ nodo_arvore_ponteiro busca_nodo(nodo_arvore_ponteiro ponteiro_arvore, int valor)
     }
 }
 
+//A função abaixo remove um nó obtido na função de busca de um elemento presente na árvore
 nodo_arvore_ponteiro remove_nodo(nodo_arvore_ponteiro ponteiro_arvore, int valor)
 {
+    //A condição abaixo é utilizada quando o nó a ser deletado não possui filhos
     if(ponteiro_arvore->ponteiro_esquerda == NULL && ponteiro_arvore->ponteiro_direita==NULL)
     {
-        free(ponteiro_arvore);
+        free(ponteiro_arvore); //Deletando(limpando da memória) o nó para remoção
     }
+
+    //A condição abaixo é utilizada quando o nó possui apenas filho à direita
     else if(ponteiro_arvore->ponteiro_esquerda == NULL)
     {
-        nodo_arvore_ponteiro auxiliar = ponteiro_arvore;
-        ponteiro_arvore = ponteiro_arvore->ponteiro_direita;
-        free(auxiliar);
+        nodo_arvore_ponteiro auxiliar; //Nó auxiliar é criado
+        auxiliar = ponteiro_arvore; //Nó auxiliar recebe o nó atual
+        ponteiro_arvore = ponteiro_arvore->ponteiro_direita; //O nó atual é "descolado" e ocupa o "lugar" do seu filho à direita
+        free(auxiliar); //Deletando(limpando da memória) o nó auxiliar que possui o nó atual a ser removido
     }
+
+    //A condição abaixo é utilizada quando o nó possui apenas filho à esquerda
     else if(ponteiro_arvore->ponteiro_direita == NULL)
     {
-        nodo_arvore_ponteiro auxiliar = ponteiro_arvore;
-        auxiliar = ponteiro_arvore->ponteiro_esquerda;
-        free(auxiliar);
+        nodo_arvore_ponteiro auxiliar; //Nó auxiliar é criado
+        auxiliar = ponteiro_arvore; //Nó auxiliar recebe o nó atual
+        ponteiro_arvore = ponteiro_arvore->ponteiro_esquerda; //O nó atual é "descolado" e ocupa o "lugar" do seu filho à esquerda
+        free(auxiliar); //Deletando(limpando da memória) o nó auxiliar que possui o nó atual a ser removido
     }
+
+    //A condição abaixo é utilizada quando o nós possui filhos tanto à esquerda quanto à direita
+    //Onde será procurado o melhor valor para ocupar o lugar do nó deletado para não perder alguma propriedade da árvore
     else
     {
-        nodo_arvore_ponteiro auxiliar = ponteiro_arvore->ponteiro_esquerda;
+        nodo_arvore_ponteiro auxiliar; //Nó auxiliar é criado
+        auxiliar = ponteiro_arvore->ponteiro_esquerda; //Nó auxiliar recebe o filho nó atual à esquerda
 
-        while(auxiliar->ponteiro_direita != NULL)
+        //O loop abaixo vai buscar o maior valor à direta do nó atual do nó atual para colocá-lo no lugar do nó atual 
+        while(auxiliar->ponteiro_direita != NULL) 
         {
             auxiliar = auxiliar->ponteiro_direita;
         }
 
-        ponteiro_arvore->dado = auxiliar->dado;
-        auxiliar->dado = valor;
+        ponteiro_arvore->dado = auxiliar->dado; //O nó atual recebe o maior valor à direita dele, obtido no loop acima
+        auxiliar->dado = valor; //O nó auxiliar recebe o valor buscado
+
+        //O nó filho do nó atual recebe o "restante" da árvore após a remoção
         ponteiro_arvore->ponteiro_esquerda = remove_nodo(ponteiro_arvore->ponteiro_esquerda,valor);
     }
 
-    return ponteiro_arvore;
+    return ponteiro_arvore; //Retorna a árvore completa após a remoção do nó selecionado
 }
 
