@@ -18,7 +18,7 @@ void inserir_na_arvore(nodo_arvore_ponteiro *ponteiro_arvore, int valor);
 void percurso_em_ordem(nodo_arvore_ponteiro ponteiro_arvore);
 void impressao_formato_arvore(nodo_arvore_ponteiro ponteiro_arvore, int espaco);
 nodo_arvore_ponteiro busca_nodo(nodo_arvore_ponteiro ponteiro_arvore, int valor);
-void remove_nodo(nodo_arvore_ponteiro *ponteiro_arvore);
+nodo_arvore_ponteiro remove_nodo(nodo_arvore_ponteiro ponteiro_arvore, int valor);
 
 // função main inicia execução do programa
 int main( int argc, char **argv )
@@ -39,12 +39,12 @@ int main( int argc, char **argv )
     } // fim do laço for
     
     // percorrendo percurso em ordem
-/*    puts("\n\nO percuro em-ordem:");
+    puts("\n\nO percuro em-ordem:");
     percurso_em_ordem(ponteiro_raiz);
 
     printf("\n");
 
-    impressao_formato_arvore(ponteiro_raiz,0); */
+    impressao_formato_arvore(ponteiro_raiz,0);
 
     int valor_busca;
 
@@ -163,5 +163,40 @@ nodo_arvore_ponteiro busca_nodo(nodo_arvore_ponteiro ponteiro_arvore, int valor)
     {
         return ponteiro_arvore; //quando o nó com o valor buscado é encontrado
     }
+}
+
+nodo_arvore_ponteiro remove_nodo(nodo_arvore_ponteiro ponteiro_arvore, int valor)
+{
+    if(ponteiro_arvore->ponteiro_esquerda == NULL && ponteiro_arvore->ponteiro_direita==NULL)
+    {
+        free(ponteiro_arvore);
+    }
+    else if(ponteiro_arvore->ponteiro_esquerda == NULL)
+    {
+        nodo_arvore_ponteiro auxiliar = ponteiro_arvore;
+        ponteiro_arvore = ponteiro_arvore->ponteiro_direita;
+        free(auxiliar);
+    }
+    else if(ponteiro_arvore->ponteiro_direita == NULL)
+    {
+        nodo_arvore_ponteiro auxiliar = ponteiro_arvore;
+        auxiliar = ponteiro_arvore->ponteiro_esquerda;
+        free(auxiliar);
+    }
+    else
+    {
+        nodo_arvore_ponteiro auxiliar = ponteiro_arvore->ponteiro_esquerda;
+
+        while(auxiliar->ponteiro_direita != NULL)
+        {
+            auxiliar = auxiliar->ponteiro_direita;
+        }
+
+        ponteiro_arvore->dado = auxiliar->dado;
+        auxiliar->dado = valor;
+        ponteiro_arvore->ponteiro_esquerda = remove_nodo(ponteiro_arvore->ponteiro_esquerda,valor);
+    }
+
+    return ponteiro_arvore;
 }
 
